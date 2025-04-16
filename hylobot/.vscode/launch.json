@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Rodar HyloBot",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${workspaceFolder}/hylobot/app/main.py",
+        "console": "integratedTerminal",
+        "justMyCode": true
+      }
+    ]
+  }
+  

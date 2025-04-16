@@ -3,42 +3,46 @@ from chatbot import resposta_bot
 from utils import carrega_pdf, carrega_site, carrega_youtube
 
 st.set_page_config(page_title="Hylo", layout="centered")
+
 st.title("🤖 Hylo")
-st.write("Converse com PDFs, Sites ou Vídeos do YouTube!")
 
-# Escolha da fonte de dados
-opcao = st.radio("Escolha a fonte de dados:", ("PDF", "Site", "YouTube"))
-
-if "documento" not in st.session_state:
-    st.session_state.documento = None
-
-if st.button("Carregar dados"):
-    if opcao == "PDF":
-        st.session_state.documento = carrega_pdf()
-    elif opcao == "Site":
-        st.session_state.documento = carrega_site()
-    elif opcao == "YouTube":
-        st.session_state.documento = carrega_youtube()
-    st.success("Dados carregados com sucesso!")
-
-# Caixa de entrada para o usuário perguntar
-pergunta = st.text_input("Digite sua pergunta:")
-
+# Inicializa sessão
 if "mensagens" not in st.session_state:
     st.session_state.mensagens = []
 
-if st.button("Enviar"):
-    if st.session_state.documento is None:
-        st.warning("Carregue os dados primeiro!")
-    else:
-        st.session_state.mensagens.append(("user", pergunta))
-        resposta = resposta_bot(st.session_state.mensagens, st.session_state.documento)
-        st.session_state.mensagens.append(("assistant", resposta))
-        st.markdown(f"**HyloBot:** {resposta}")
+if "documento" not in st.session_state:
+    st.session_state.documento = []
 
-# Histórico de conversa
-if st.session_state.mensagens:
-    st.subheader("🗂 Histórico de Conversa")
-    for role, msg in st.session_state.mensagens:
-        prefix = "👤 Você" if role == "user" else "🤖 HyloBot"
-        st.markdown(f"**{prefix}:** {msg}")
+# Escolha da fonte
+fonte = st.selectbox("Escolha a fonte de informações:", ["Nenhuma", "Site", "PDF", "YouTube"])
+
+if fonte == "Site":
+    if st.button("Carregar site"):
+        st.session_state.documento = carrega_site()
+
+elif fonte == "PDF":
+    if st.button("Carregar PDF"):
+        st.session_state.documento = carrega_pdf()
+
+elif fonte == "YouTube":
+    if st.button("Carregar YouTube"):
+        st.session_state.documento = carrega_youtube()
+
+# Limite de chunks com slider
+limite_chunks = st.slider("Quantidade máxima de blocos de informação:", 1, 20, 4)
+
+# Campo de texto para pergunta
+pergunta = st.text_input("Digite sua pergunta:")
+
+if st.button("Enviar"):
+    st.session_state.mensagens.append(('human', pergunta))
+    resposta = resposta_bot(st.session_state.mensagens, st.session_state.documento, limite_chunks=limite_chunks)
+    st.session_state.mensagens.append(('ai', resposta))
+
+# Histórico
+st.markdown("### Conversa:")
+for remetente, mensagem in st.session_state.mensagens:
+    if remetente == 'human':
+        st.markdown(f"🧑‍💻 **Você:** {mensagem}")
+    else:
+        st.markdown(f"🤖 **Hylo:** {mensagem}")

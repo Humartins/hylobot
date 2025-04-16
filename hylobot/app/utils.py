@@ -1,4 +1,7 @@
 from langchain_community.document_loaders import WebBaseLoader, YoutubeLoader, PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+
 
 def carrega_site():
   url_site = input('Digite a url do site:')

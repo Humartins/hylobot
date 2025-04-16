@@ -46,5 +46,5 @@ pip install -r requirements.txt
 $env:GROQ_API_KEY = "sua-chave-aqui"
 
 5. Rode o bot:
-6. cd app
+cd app
 python main.py

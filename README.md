@@ -33,18 +33,31 @@ O foco é criar uma ferramenta simples, mas poderosa, para automação de leitur
 ## 🚀 Como Rodar o Projeto
 
 1. Clone o repositório:
+   
 git clone https://github.com/Humartins/hylobot.git
 cd hylobot
 
-2. Ative o ambiente virtual 
-venv\Scripts\activate
+3. Ative o ambiente virtual
+   
+   venv\Scripts\activate
 
-3. Instale as dependencias:
-pip install -r requirements.txt
+5. Instale as dependencias:
+   
+   pip install -r requirements.txt
 
-4.Crie uma variável de ambiente com sua chave da API Groq:
-$env:GROQ_API_KEY = "sua-chave-aqui"
+4. Crie uma variável de ambiente com sua chave da API Groq:
+   
+   $env:GROQ_API_KEY = "sua-chave-aqui"
 
-5. Rode o bot:
-cd app
-python main.py
+6. Rode o bot:
+   
+   cd app
+   python main.py
+   
+---
+
+## 📌Observações
+
+O projeto ainda está em desenvolvimento, novas funcionalidades serão adicionadas em breve.
+
+Você pode encerrar a conversa com o comando x.

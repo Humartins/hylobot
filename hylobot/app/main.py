@@ -1,8 +1,11 @@
 import streamlit as st
 from chatbot import resposta_bot
 from utils import carrega_pdf, carrega_site, carrega_youtube
+from logo import exibir_logo_com_titulo
 
 st.set_page_config(page_title="Hylo", layout="centered")
+
+exibir_logo_com_titulo('../assets/LogoHylo.png')
 
 # Inicializa sessão
 if "mensagens" not in st.session_state:

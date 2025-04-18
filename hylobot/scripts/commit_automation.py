@@ -7,7 +7,7 @@ def obter_mensagem_commit():
 
 # Função para atualizar o arquivo PowerShell com a nova mensagem de commit
 def atualizar_mensagem_commit(mensagem):
-    caminho_commit_ps1 = "C:/Users/Humberto Martins/Desktop/Hylo/hylobot/app/commit.ps1"  # Altere para o caminho correto, se necessário
+    caminho_commit_ps1 = "C:/Users/Humberto Martins/Desktop/Hylo/hylobot/scripts/commit.ps1"  # Altere para o caminho correto, se necessário
     with open(caminho_commit_ps1, "r") as file:
         lines = file.readlines()
 
@@ -22,7 +22,7 @@ def atualizar_mensagem_commit(mensagem):
 
 # Função para rodar o script PowerShell
 def rodar_commit():
-    subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-File", "C:/Users/Humberto Martins/Desktop/Hylo/hylobot/app/commit.ps1"])
+    subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-File", "C:/Users/Humberto Martins/Desktop/Hylo/hylobot/scripts/commit.ps1"])
 
 # Função principal
 def main():

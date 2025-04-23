@@ -1,25 +1,37 @@
 import streamlit as st
+from core.db.interaction_log import salvar_interacao
+from core.chatbot import resposta_bot
 
-def chat():
-    html_conversa = '<div id="chat-container" style="max-height: 400px; overflow-y: auto; padding-right: 10px;">'
 
-    for remetente, mensagem in st.session_state.mensagens:
-        if remetente == 'human':
-            html_conversa += f'<div class="user"><p><strong>Você:</strong> {mensagem}</p></div>'
-        else:
-            html_conversa += f'<div class="bot"><p><strong>Hylo:</strong> {mensagem}</p></div>'
+def processar_mensagem():
+    limite_chunks = st.slider("Quantidade máxima de blocos de informação:", 1, 20, 20)
 
-    html_conversa += "</div>"
+    # Inicializa controle de input
+    if "input_submetido" not in st.session_state:
+        st.session_state.input_submetido = False
+    if "mensagem_temp" not in st.session_state:
+        st.session_state.mensagem_temp = ""
 
-    # Scroll automático
-    html_conversa += """
-    <script>
-        const chatContainer = document.getElementById("chat-container");
-        if (chatContainer) {
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-    </script>
-    """
+    user_input = st.chat_input("Digite sua pergunta:")
+    if user_input:
+        st.session_state.mensagem_temp = user_input
+        st.session_state.input_submetido = True  # Ativa a flag
 
-    # Renderiza tudo junto
-    st.markdown(html_conversa, unsafe_allow_html=True)
+    # Executa apenas se uma nova mensagem foi submetida
+    if st.session_state.input_submetido and st.session_state.mensagem_temp:
+        pergunta = st.session_state.mensagem_temp
+        st.session_state.input_submetido = False  # Reset flag
+        st.session_state.mensagem_temp = ""        # Limpa temp
+
+        st.session_state.mensagens.append(("human", pergunta))
+
+        resposta = resposta_bot(
+            mensagens=st.session_state.mensagens,
+            documentos=st.session_state.documento,
+            limite_chunks=limite_chunks
+        )
+
+        st.session_state.mensagens.append(("ai", resposta))
+        salvar_interacao(pergunta, resposta)
+
+        return resposta

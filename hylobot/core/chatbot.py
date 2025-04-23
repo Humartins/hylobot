@@ -25,9 +25,11 @@ prompt = ChatPromptTemplate.from_messages([
 chain = prompt | chat
 
 # Função principal com memória
-def resposta_bot(mensagens, documentos, limite_chunks=4):
-    # Limita os chunks
-    if isinstance(documentos, list):
+def resposta_bot(mensagens, documentos, limite_chunks=20):
+    if not mensagens:
+        raise ValueError("A lista de mensagens está vazia.")
+    
+    if isinstance(documentos, list) and documentos:
         documentos_limitados = documentos[:limite_chunks]
         informacoes = " ".join(doc.page_content for doc in documentos_limitados)
     else:

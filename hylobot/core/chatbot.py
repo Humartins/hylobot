@@ -9,6 +9,7 @@ import os
 
 load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
 os.environ['USER_AGENT'] = "HyloBot/1.0"
 
 # Inicializa o modelo

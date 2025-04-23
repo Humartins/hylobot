@@ -1,0 +1,21 @@
+#chat-container {
+    max-height: 500px; /* Altura máxima visível */
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #FF4C4B;
+    border-radius: 12px;
+    background-color: #0E1117;
+    margin-bottom: 1rem;
+}
+
+.user, .bot {
+    margin-bottom: 8px;
+}
+
+.user {
+    color: #f4433a;
+}
+
+.bot {
+    color: #eeebeb;
+}

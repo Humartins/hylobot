@@ -7,7 +7,7 @@ import uuid
 import os
 
 # Configuração da API
-api_key = 'sua api key aqui'
+api_key = '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'
 os.environ['GROQ_API_KEY'] = api_key
 os.environ['USER_AGENT'] = "HyloBot/1.0"
 

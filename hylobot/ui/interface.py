@@ -1,12 +1,5 @@
 import streamlit as st
 
-def configurar_pagina():
-    st.set_page_config(
-        page_title="Hylo",
-        page_icon='assets/logo_hylo.ico',
-        layout="centered"
-    )
-
 def exibir_logo_com_titulo(caminho_logo: str):
     col1, col2 = st.columns([1, 10])
     with col1:

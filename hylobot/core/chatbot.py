@@ -3,12 +3,12 @@ from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.memory.chat_message_histories import StreamlitChatMessageHistory
+from dotenv import load_dotenv
 import uuid
 import os
 
-# Configuração da API
-api_key = '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'
-os.environ['GROQ_API_KEY'] = api_key
+load_dotenv()
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 os.environ['USER_AGENT'] = "HyloBot/1.0"
 
 # Inicializa o modelo

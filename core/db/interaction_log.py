@@ -1,19 +1,45 @@
-from datetime import datetime
-from core.db.database import get_connection
 import sqlite3
+from datetime import datetime
+from pathlib import Path
 
-def salvar_interacao(user_input, bot_response, source=""):
-    timestamp = datetime.now().isoformat(sep=' ', timespec='seconds')
+# Caminho do banco de dados
+DB_PATH = Path(__file__).resolve().parent / "interacoes.db"
 
-    print(f"Salvando interação - Timestamp: {timestamp}, User input: {user_input}, Bot response: {bot_response}, Source: {source}")
+# Inicializa o banco de dados
+def init_db():
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT NOT NULL,
+            role TEXT NOT NULL,
+            content TEXT NOT NULL,
+            timestamp TEXT NOT NULL
+            )
+        """)
+        conn.commit()
 
-    try:
-        with get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                INSERT INTO interactions (timestamp, user_input, bot_response, source)
-                VALUES (?, ?, ?, ?)
-            """, (timestamp, user_input, bot_response, source))
-            conn.commit()
-    except sqlite3.Error as e:
-        print(f"Erro ao salvar interação: {e}")
+# Salva uma nova interação
+def salvar_interacao(user_id, role, content, timestamp=None):
+    if timestamp is None:
+        timestamp = datetime.now().isoformat()
+
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO messages (user_id, role, content, timestamp)
+            VALUES (?, ?, ?, ?)
+        """, (user_id, role, content, timestamp))
+        conn.commit()
+
+# Carrega o histórico de conversas de um usuário específico
+def load_conversation(user_id):
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT role, content, timestamp FROM messages 
+            WHERE user_id = ?
+            ORDER BY timestamp ASC
+        """, (user_id,))
+        return cursor.fetchall()

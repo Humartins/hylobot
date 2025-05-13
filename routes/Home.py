@@ -38,6 +38,9 @@ def mostrar_home():
         O Hylo ainda está em constante evolução! Este projeto também faz parte do meu portfólio como estudante de Engenharia da Computação. Novas funcionalidades estão sendo desenvolvidas para torná-lo ainda mais poderoso e intuitivo.
 
         Acesse a aba *Hylo* na esquerda para começar!
-    """)
+                
+        Linkedin: https://www.linkedin.com/in/humberto-martins-79822a2a6/     
+        E-mail: hummartinsg@gmail.com                
+""")
 
 

@@ -1,4 +1,5 @@
 import streamlit as st
+import uuid
 from loaders.utils import carrega_pdf, carrega_site, carrega_youtube
 
 def inicializar_sessao():
@@ -8,6 +9,17 @@ def inicializar_sessao():
 
     if "documento" not in st.session_state:
         st.session_state.documento = []
+
+    if "session_id" not in st.session_state:
+        st.session_state.session_id = str(uuid.uuid4())
+
+    #Adicionar botão para limpar a sessão
+
+    if st.button("Limpar conversa"):
+        st.session_state.mensagens.clear()
+        st.session_state.documento.clear()
+        st.session_state.session_id = str(uuid.uuid4())
+        st.success("Sessão limpa com sucesso!")
 
     # Seleção da fonte de informações
     fonte = st.selectbox("Escolha a fonte de informações:", ["Nenhuma", "Site", "PDF", "YouTube"])

@@ -1,5 +1,6 @@
 import sqlite3
 from pathlib import Path
+from core.db.interaction_log import init_db
 
 DB_PATH = Path(__file__).resolve().parent.parent.parent / "hylobot.db"
 
@@ -8,15 +9,4 @@ def get_connection():
     return conn
 
 def initialize_database():
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS interactions (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp TEXT,
-                user_input TEXT,
-                bot_response TEXT,
-                source TEXT
-            )
-        """)
-        conn.commit()
+    init_db()
